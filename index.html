@@ -1,0 +1,174 @@
+<?php 
+
+include( 'includes/connect.php' ); 
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+
+  <?php include( 'includes/analytics.php' ); ?>
+
+  <title>LiveCode | Adam Thomas</title>
+  
+  <?php include( 'includes/shared.html' ); ?>
+      
+  <script src="https://kit.fontawesome.com/57a8a8c892.js" crossorigin="anonymous"></script>
+  
+</head>
+  
+<body>
+  
+  <?php include( 'includes/header.php' ); ?>
+
+  <div class="home">
+
+    <div class="intro">
+    
+      <img src="/images/logo-livecode.png">
+      
+    </div>
+
+    <video preload="auto" autoplay loop muted class="fill">
+      <source src="/video/home-video.mp4">
+    </video>
+
+  </div>
+
+  <div class="title">
+
+    
+    <?php include('includes/livecode.php'); ?>
+    
+
+    <hr>
+    
+    
+    <h2>
+      Copyable, Plain Text, Easy to Read
+    </h2>
+    
+    <img src="/images/livecode-screens.png">
+    
+    <p>
+      This Visual Studio Code extension will push your saved code to the
+      <a href="/code.html">LiveCode Viewer</a> 
+      and will make your code available to other programmers in real-time in a plain text, easy 
+      to read, and copyable format. Code is highlighted using 
+      <a href="https://prismjs.com/">prism.js</a>.
+    </p>
+    
+    <ul class="cards-five">
+      <li>
+        <i class="fas fa-copy fa-3x"></i>
+      </li>
+      <li>
+        <i class="fas fa-font fa-3x"></i>
+      </li>
+      <li>
+        <i class="fas fa-book fa-3x"></i>
+      </li>
+    </ul>
+    
+
+    <hr>
+  
+    
+    <h2>
+      Following a LiveCode Session
+    </h2>
+        
+    <p>
+      To follow a LiveCode session just open up the <a href="code.html">LiveCode Viewer</a> and select the programmer
+      you are following.
+    </p>
+    
+    <img src="/images/screenshot-livecode.png">
+    
+   
+    <hr>
+    
+    <h2>
+      Leading a LiveCode Session
+    </h2>
+    
+    <p>
+      To lead a LiveCode session download
+      <a href="https://code.visualstudio.com/">Visual Studio Code</a> and the
+      <a href="https://marketplace.visualstudio.com/items?itemName=CodeAdamCa.livecode">LiveCode Extension</a>.
+    </p>
+    
+    <ul class="cards-five">
+      <li>
+        <a href="https://code.visualstudio.com/">
+          <img src="/images/logo-visual-studio-code.png">
+        </a>
+      </li>
+      <li>
+        <a href="https://marketplace.visualstudio.com/items?itemName=CodeAdamCa.livecode">
+          <img src="/images/icon-livecode.png">
+        </a>
+      </li>
+    </ul>
+    
+    
+    <hr>
+    
+    
+    <h2>
+      Extension Documentation
+    </h2>
+    
+    <p>
+      The LiveCode extension has three basic commands. When the extension is activated all saved code 
+      will be pushed to the 
+      <a href="/code.html">LiveCode Viewer</a>.
+    </p>
+    
+    <p style="text-align: center;">
+      CMD + SHIFT + P - LiveCode: Activate - Turn LiveCode on
+      <br>
+      CMD + SHIFT + P - LiveCode: Deactivate - Turn LiveCode off
+      <br>
+      CMD + SHIFT + P - LiveCode: Reset - Erase all existing paths
+    </p>
+    
+    <img src="/images/livecode-status.jpg">
+    
+    <p>
+      The LiveCode status and activity are displayed in the Visual Studio Code 
+      status bar. You will be notified of completed LiveCode actions using  
+      Visual Studio Code notifications.
+    </p>
+    
+    
+    <hr>
+    
+    
+    <h2>
+      Extension Demo
+    </h2>
+    
+    <div class="embed-container">
+      <iframe class="embed-video" src="https://www.youtube.com/embed/XcD_rj48wtY?rel=0" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen></iframe>  
+    </div>
+    
+    
+    <hr>
+    
+
+  </div>
+  
+  
+  <footer>
+
+    <a href="https://codeadam.ca/">⌂</a>
+
+  </footer>
+    
+</body>
+</html>

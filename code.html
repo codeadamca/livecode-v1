@@ -1,0 +1,244 @@
+<?php 
+
+include( 'includes/connect.php' ); 
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+
+  <?php include( 'includes/analytics.php' ); ?>
+
+  <title>Now Coding on LiveCode | Adam Thomas</title>
+  
+  <?php include( 'includes/shared.html' ); ?>
+
+  <link href="/styles/prism.css" rel="stylesheet" />
+  
+  <script src="https://kit.fontawesome.com/57a8a8c892.js" crossorigin="anonymous"></script>
+  
+  <script>
+  
+    function selectTab(event, tab) {
+
+      selectedPath = tab;
+
+      let tabcontent = document.getElementById("tabContent").getElementsByTagName("div");
+      for (let i = 0; i < tabcontent.length; i++) 
+      {
+        tabcontent[i].style.display = "none";
+      }
+
+      let tablinks = document.getElementById("tabButtons").getElementsByTagName("button");
+      for (let j = 0; j < tablinks.length; j++) 
+      {
+        tablinks[j].removeAttribute('class');
+      }
+
+      document.getElementById(tab).style.display = "block";
+      event.currentTarget.className = "active";
+      
+      resetHighlight();
+
+    }
+    
+    function resetHighlight() {
+      
+      document.querySelectorAll('pre code').forEach((block) => {
+        Prism.highlightElement(block);
+      });
+      
+    }
+    
+    const icon = new Array();
+    icon['md'] = '<i class="fab fa-markdown"></i>';
+    icon['js'] = '<i class="fab fa-js"></i>';
+    icon['html'] = '<i class="fab fa-html5"></i>';
+    icon['php'] = '<i class="fab fa-php"></i>';
+    icon['json'] = '<i class="fab fa-bars"></i>';
+    icon['css'] = '<i class="fab fa-css3-alt"></i>';
+    
+    
+    let selectedPath = '';
+    let lastUpdated = Math.floor(new Date().getTime() / 1000);
+  
+    setInterval('resetTabs(false);', 2500);
+    
+    function resetTabs(initialize) { 
+    
+      // Fetch the updated path json
+      fetch('https://livecode.codeadam.ca/api.php').then(function (response) {
+        
+        return response.json();
+        
+      }).then(function (data) {
+        
+        // console.log( lastUpdated + ' - ' + data.updated);
+        
+        // If there has been an update since the content was last loaded
+        if (lastUpdated < data.updated || initialize == true)
+        {
+          
+          let tabs = document.getElementById('tabButtons');
+          let tabContent = document.getElementById('tabContent');
+
+          // Claer out tabs and replace them in alpha order of path`
+          tabs.innerHTML = '';
+          
+          // Loop through paths
+          for (let key in data.paths) {
+            
+            let extension = key.split('.').pop();
+
+            // Add a button for each tab
+            let button = document.createElement('button');
+            button.innerHTML = icon[extension] + ' ' + key;
+            button.setAttribute('onclick','selectTab(event, "'+key+'")');
+            button.setAttribute('data-path', key);
+
+            tabs.appendChild(button);
+
+            // Get existing content element
+            let content = document.getElementById(key);
+            
+            // If the content element already exists
+            if (content) {
+
+              content.innerHTML = '<pre class="line-numbers language-' + extension + '"><code>' + data.paths[key] + '</pre></code>';
+              
+            // If the content element does not exist
+            } else {
+
+              let div = document.createElement('div');
+              div.id = key;
+              div.classList.add("tabcontent");
+              div.innerHTML = '<pre class="line-numbers language-' + extension + '"><code>' + data.paths[key] + '</pre></code>';
+              tabContent.appendChild(div);
+
+            }
+
+          }
+          
+          if (selectedPath) {
+            let activeTab = document.querySelectorAll('[data-path="' + selectedPath + '"]');
+            activeTab[0].className = "active";
+          }
+          
+          // Apply prism.js
+          resetHighlight();
+          
+          // Update last date updated
+          lastUpdated = data.updated;
+          
+          let activeContent = document.querySelectorAll('.tabontent[style="display: block;"]');
+          
+          if (initialize)
+          {
+            
+            let firstButton = document.querySelectorAll('#tabButtons button');
+            firstButton.item(0).click();
+
+          }
+          
+        }
+        else if (data.count == 0)
+        {          
+          document.getElementById('tabButtons').innerHTML = '';
+          document.getElementById('tabContent').innerHTML = '';
+        }
+        
+      }).catch(function (err) {
+
+        // console.warn('Something went wrong.', err);
+
+      });
+      
+    }
+    
+    window.onload = function(e) {
+      resetTabs(true);
+    };
+    
+  </script>
+  
+  <style>
+  
+    #tabButtons {
+      z-index: 200;
+      overflow: hidden;
+      border-bottom: 3px solid #ddd;
+      background-color: #f1f1f1;
+      position: fixed;
+      top: 53px;
+      width: 100%;
+    }
+    
+    @media screen and (max-width: 800px){
+        #tabButtons {
+            top: 0;
+        }
+    }
+
+    #tabButtons button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+    }
+
+    #tabButtons button:hover {
+      background-color: #ddd;
+    }
+
+    #tabButtons button.active {
+      background-color: #ccc;
+    }
+
+    #tabContent {
+      z-index: 100;
+      width: 100vw;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+
+    #tabContent div {
+      overflow: auto;
+      display: none;
+      border-top: none;
+      height: 100vh;
+      width: 100vw;
+      box-sizing: border-box;
+      padding: 100px 0 0 0;
+      text-align: left;
+    }
+    
+    code, pre {
+      border: none !important;
+      margin: 0 !important;
+      background-color: none !important;
+      background: none !important;
+    }
+  
+  </style>
+    
+</head>
+  
+<body>
+  
+  <script src="/scripts/prism.js"></script>
+  
+  <?php include( 'includes/header.php' ); ?>
+  
+  <div class="home">
+
+    <div id="tabButtons"></div>
+    <div id="tabContent" class="line-numbers"></div>
+      
+  </div>
+    
+</body>
+</html>
